@@ -6,12 +6,17 @@ using System.Web.Mvc;
 
 namespace BlogLayer.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
-        // GET: Home
+        // GET: Admin
         public ActionResult Index()
         {
-            //asd
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+
             return View();
         }
     }

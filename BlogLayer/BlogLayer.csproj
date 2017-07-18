@@ -130,9 +130,48 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\ddsmoothmenu.css" />
+    <Content Include="Content\css\ie.css" />
+    <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\nivo-slider.css" />
     <Content Include="Content\css\slimbox2.css" />
     <Content Include="Content\css\templatemo_style.css" />
+    <Content Include="Content\imageadmin\breadcrumb_divider.png" />
+    <Content Include="Content\imageadmin\btn_submit.png" />
+    <Content Include="Content\imageadmin\btn_submit_2.png" />
+    <Content Include="Content\imageadmin\btn_view_site.png" />
+    <Content Include="Content\imageadmin\header_bg.png" />
+    <Content Include="Content\imageadmin\header_shadow.png" />
+    <Content Include="Content\imageadmin\icn_add_user.png" />
+    <Content Include="Content\imageadmin\icn_alert_error.png" />
+    <Content Include="Content\imageadmin\icn_alert_info.png" />
+    <Content Include="Content\imageadmin\icn_alert_success.png" />
+    <Content Include="Content\imageadmin\icn_alert_warning.png" />
+    <Content Include="Content\imageadmin\icn_audio.png" />
+    <Content Include="Content\imageadmin\icn_categories.png" />
+    <Content Include="Content\imageadmin\icn_edit.png" />
+    <Content Include="Content\imageadmin\icn_edit_article.png" />
+    <Content Include="Content\imageadmin\icn_folder.png" />
+    <Content Include="Content\imageadmin\icn_jump_back.png" />
+    <Content Include="Content\imageadmin\icn_logout.png" />
+    <Content Include="Content\imageadmin\icn_new_article.png" />
+    <Content Include="Content\imageadmin\icn_photo.png" />
+    <Content Include="Content\imageadmin\icn_profile.png" />
+    <Content Include="Content\imageadmin\icn_search.png" />
+    <Content Include="Content\imageadmin\icn_security.png" />
+    <Content Include="Content\imageadmin\icn_settings.png" />
+    <Content Include="Content\imageadmin\icn_tags.png" />
+    <Content Include="Content\imageadmin\icn_trash.png" />
+    <Content Include="Content\imageadmin\icn_user.png" />
+    <Content Include="Content\imageadmin\icn_video.png" />
+    <Content Include="Content\imageadmin\icn_view_users.png" />
+    <Content Include="Content\imageadmin\module_footer_bg.png" />
+    <Content Include="Content\imageadmin\post_message.png" />
+    <Content Include="Content\imageadmin\secondary_bar.png" />
+    <Content Include="Content\imageadmin\secondary_bar_shadow.png" />
+    <Content Include="Content\imageadmin\sidebar.png" />
+    <Content Include="Content\imageadmin\sidebar_divider.png" />
+    <Content Include="Content\imageadmin\sidebar_shadow.png" />
+    <Content Include="Content\imageadmin\table_sorter_header.png" />
     <Content Include="Content\images\agent.png" />
     <Content Include="Content\images\avator.jpg" />
     <Content Include="Content\images\blog\01.jpg" />
@@ -197,11 +236,15 @@
     <Content Include="Content\images\templatemo_logo.png" />
     <Content Include="Content\images\templatemo_menu_item_hover.png" />
     <Content Include="Content\js\ddsmoothmenu.js" />
+    <Content Include="Content\js\hideshow.js" />
+    <Content Include="Content\js\jquery-1.5.2.min.js" />
     <Content Include="Content\js\jquery-1.6.3.min.js" />
     <Content Include="Content\js\jquery-ui.min.js" />
     <Content Include="Content\js\jquery.capSlide.js" />
+    <Content Include="Content\js\jquery.equalHeight.js" />
     <Content Include="Content\js\jquery.nivo.slider.js" />
     <Content Include="Content\js\jquery.nivo.slider.pack.js" />
+    <Content Include="Content\js\jquery.tablesorter.min.js" />
     <Content Include="Content\js\scroll-startstop.events.jquery.js" />
     <Content Include="Content\js\slimbox2.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -227,10 +270,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CF\RazorBlogContext.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +289,8 @@
     </Content>
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Shared\BlogAdmin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -250,7 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
