@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using BlogLayer.Models.DataModel;
 
 namespace BlogLayer.CF
 {
@@ -15,6 +16,6 @@ namespace BlogLayer.CF
         }
 
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<Admin> Admins { get; set; }
     }
 }
