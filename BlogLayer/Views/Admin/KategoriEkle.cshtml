@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "KategoriEkle";
+    Layout = "~/Views/Shared/BlogAdmin.cshtml";
+}
+
+<h2>Kategori Ekle</h2>
+
+@{ 
+    using (Html.BeginForm("KategoriEkle","Admin",FormMethod.Post,new {@name="katekle" }))
+    {
+        <table>
+            <tr>
+                <td>Kategori Adı</td>
+                <td>@Html.TextBox("CategoryName")</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Ekle" /></td>
+            </tr>
+        </table>
+    }
+    if (Request.HttpMethod=="POST")
+    {
+        if (ViewBag.hatavar==true)
+        {
+            @ViewBag.hata
+        }
+    }
+}
+

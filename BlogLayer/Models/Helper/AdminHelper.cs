@@ -15,6 +15,7 @@ namespace BlogLayer.Models.Helper
         ]
         public string UserName { get; set; }
         [
+            DataType(DataType.Password)
             Required(ErrorMessage = "Şifre Giriniz"),
         DisplayName("Şifre")
             ]

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BlogLayer.Models.DataModel.Category> 
+@{
+    ViewBag.Title = "KategoriListele";
+    Layout = "~/Views/Shared/BlogAdmin.cshtml";
+}
+
+<h2>Kategori Listele</h2>
+
+<p>
+    @Html.ActionLink("Yeni Kategori Oluştur", "KategoriEkle", "Admin");
+</p>
+<table class="table table-hover table-bordered table-striped" style="background-color:gainsboro">
+    <tr>
+        <th>@Html.DisplayNameFor(model=>model.Name)</th>
+        <th>@Html.DisplayNameFor(model=>model.UrlName)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(zirtapoz => item.Name);
+        </td>
+        <td>
+            @Html.DisplayFor(ferikoy => item.UrlName);
+        </td>
+        <td>
+            @Html.ActionLink("Sil", "KategoriSil",new { KategoriID = item.CategoryID })
+        </td>
+    </tr>
+    }
+    <tr></tr>
+</table>

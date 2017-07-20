@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Dashboard I Admin Panel</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/layout.css")" type="text/css" media="screen" />
     <!--[if lt IE 9]>
     <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
@@ -73,8 +74,8 @@
         </ul>
         <h3>Kategoriler</h3>
         <ul class="toggle">
-            <li class="icn_add_user"><a href="#">Kategori Ekle</a></li>
-            <li class="icn_view_users"><a href="#">Kategori Listele</a></li>
+            <li >@Html.ActionLink("Kategori Ekle","KategoriEkle","Admin")</li>
+            <li >@Html.ActionLink("KategoriListele","KategoriListele","Admin")</li>
         </ul>
         <h3>Yorumlar</h3>
         <ul class="toggle">

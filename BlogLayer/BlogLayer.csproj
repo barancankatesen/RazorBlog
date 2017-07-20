@@ -280,6 +280,7 @@
     <Compile Include="Models\DataModel\Admin.cs" />
     <Compile Include="Models\DataModel\Category.cs" />
     <Compile Include="Models\Helper\AdminHelper.cs" />
+    <Compile Include="Models\Helper\CategoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +294,10 @@
     <Content Include="Views\Shared\BlogAdmin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\KategoriEkle.cshtml" />
+    <Content Include="Views\Admin\KategoriEkleOto.cshtml" />
+    <Content Include="Views\Admin\KategoriListele.cshtml" />
+    <Content Include="Views\Admin\KategoriSil.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
