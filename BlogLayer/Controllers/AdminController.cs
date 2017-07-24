@@ -12,6 +12,8 @@ namespace BlogLayer.Controllers
     public class AdminController : Controller
     {
         
+       
+        
         // GET: Admin
         public ActionResult Index()
         {
@@ -132,20 +134,61 @@ namespace BlogLayer.Controllers
 
         public ActionResult KategoriSil(int KategoriID)
         {
+
             RazorBlogContext _db = new RazorBlogContext();
             Category CategoryToDel = _db.Categories.FirstOrDefault(x => x.CategoryID == KategoriID);
             return View(CategoryToDel);
         }
         [HttpPost]
-        public ActionResult KategoriSil(FormCollection frm)
+        public ActionResult KategoriSil(Category c)
         {
-            int gelenid = Convert.ToInt32(frm.Get("IDCarrier"));
             RazorBlogContext _db = new RazorBlogContext();
-            Category toDel = _db.Categories.FirstOrDefault(x => x.CategoryID == gelenid);
-            _db.Categories.Remove(toDel);
+            Category ToDel = _db.Categories.FirstOrDefault(x => x.CategoryID == c.CategoryID);
+            _db.Categories.Remove(ToDel);
             _db.SaveChanges();
             return RedirectToAction("KategoriListele");
         }
+
+       
+
+        public ActionResult KategoriGuncelle(int KategoriID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Category ToEdit = _db.Categories.FirstOrDefault(x => x.CategoryID == KategoriID);
+
+            return View(ToEdit);
+        }
+        [HttpPost]
+        public ActionResult KategoriGuncelle(Category c)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Category ToEdit = _db.Categories.FirstOrDefault(x => x.CategoryID == c.CategoryID);
+            ToEdit.Name = c.Name;
+            ToEdit.UrlName = c.UrlName;
+            _db.SaveChanges();
+            return RedirectToAction("KategoriListele");
+        }
+
+        public void TumKategoriler()
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            List<SelectListItem> KategorilerList = new List<SelectListItem>();
+            var kategoriler = _db.Categories.ToList();
+            foreach (var item in kategoriler)
+            {
+                KategorilerList.Add(new SelectListItem {Text=item.Name,Value=item.CategoryID.ToString() });
+            }
+            ViewBag.kategoriler = KategorilerList;
+             
+        }
+
+        public ActionResult MakaleEkle()
+        {
+            TumKategoriler();
+            return View();
+        }
+
+
        
     }
 }

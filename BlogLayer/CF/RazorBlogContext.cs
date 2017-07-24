@@ -17,5 +17,6 @@ namespace BlogLayer.CF
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Makale> Makales { get; set; }
     }
 }

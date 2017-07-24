@@ -19,13 +19,14 @@
     {
     <tr>
         <td>
-            @Html.DisplayFor(zirtapoz => item.Name);
+            @Html.DisplayFor(Name => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(ferikoy => item.UrlName);
+            @Html.DisplayFor(Url => item.UrlName)
         </td>
         <td>
-            @Html.ActionLink("Sil", "KategoriSil",new { KategoriID = item.CategoryID })
+            @Html.ActionLink("Sil", "KategoriSil",new { KategoriID = item.CategoryID }) |
+            @Html.ActionLink("Güncelle", "KategoriGuncelle", new { KategoriID=item.CategoryID})
         </td>
     </tr>
     }
