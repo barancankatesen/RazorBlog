@@ -1,4 +1,4 @@
-﻿
+﻿@using BlogLayer.Models.DataModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/BlogHome2.cshtml";
@@ -6,3 +6,18 @@
 
 <h2>Index</h2>
 
+@{ 
+    List<Makale> Kategoriler = (List<Makale>)ViewBag.MakalelerList;
+    foreach (Makale item in Kategoriler)
+    {
+        <div class="content_wrapper content_mb_30">
+            <h2 class="post_title">@Html.ActionLink(item.Title,"MakaleGoster",new {@id=item.MakaleID })</h2>
+            <a href='@Url.Action("MakaleGoster","Home",new {id=item.MakaleID })'><img src="@Url.Content(item.Image)" style="width:600px; height:200px;" alt="flower 5" class="img_border img_nom" /></a>
+            <p><b>Kategori:</b>@Html.ActionLink(item.Category.Name,"KategoriGoster",new {@id=item.Category.CategoryID })</p>
+            <p>@item.Description</p>
+            <div class="clear"></div>
+        </div>
+    }
+}
+
+<link type="text/css" href="~/Content/css/nivo-slider.css" rel="stylesheet" />

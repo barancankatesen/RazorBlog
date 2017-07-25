@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BlogLayer.Models.DataModel.Makale>
+
+@{
+    ViewBag.Title = "MakaleListele";
+    Layout = "~/Views/Shared/BlogAdmin.cshtml";
+}
+
+<h2>MakaleListele</h2>
+
+<p>
+    @Html.ActionLink("Makale Ekle", "MakaleEkle","Admin")
+</p>
+<table class="table table-hover" style="background-color:gainsboro" >
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MakaleID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayName( "Kategori Adı")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Keywords)
+        </th>
+        <th>
+            @Html.DisplayName("Yazar Adı")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MakaleID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Keywords)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorName.Name) @Html.DisplayFor(modelItem=> item.AuthorName.SurName)
+        </td>
+        <td>
+            @Html.ActionLink("Düzenle", "MakaleGuncelle", new { GelenMakaleID=item.MakaleID }) |
+            @Html.ActionLink("Sil", "MakaleSil", new { GelenMakaleID=item.MakaleID })
+        </td>
+    </tr>
+}
+
+</table>

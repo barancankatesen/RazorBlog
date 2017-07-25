@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BlogLayer.Models.DataModel;
+using System.IO;
 
 namespace BlogLayer.Controllers
 {
@@ -169,17 +170,20 @@ namespace BlogLayer.Controllers
             return RedirectToAction("KategoriListele");
         }
 
-        public void TumKategoriler()
+        public List<Category> TumKategoriler()
         {
             RazorBlogContext _db = new RazorBlogContext();
-            List<SelectListItem> KategorilerList = new List<SelectListItem>();
-            var kategoriler = _db.Categories.ToList();
-            foreach (var item in kategoriler)
-            {
-                KategorilerList.Add(new SelectListItem {Text=item.Name,Value=item.CategoryID.ToString() });
-            }
+            List<Category> KategorilerList = _db.Categories.ToList();
             ViewBag.kategoriler = KategorilerList;
-             
+            return KategorilerList;
+        }
+
+        public List<Admin> TumAdminler()
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            List<Admin> AdminList = _db.Admins.ToList();
+            ViewBag.admins = AdminList;
+            return AdminList;
         }
 
         public ActionResult MakaleEkle()
@@ -187,7 +191,87 @@ namespace BlogLayer.Controllers
             TumKategoriler();
             return View();
         }
+        [HttpPost,ValidateInput(false)]
+        public ActionResult MakaleEkle(FormCollection frm,HttpPostedFileBase file)
+        {
+            
+            string ViewTitle = frm.Get("Title");
+            string ViewDescription = frm.Get("Description");
+            int ViewCategoryID = Convert.ToInt32(frm.Get("Category"));
+            string ViewText = frm.Get("Text");
+            string ViewKeywords = frm.Get("Keywords");
+            int ViewYazarID = Convert.ToInt32(Session["adminid"]);
 
+            Random rnd = new Random();
+            string sayi = rnd.Next(111111, 999999).ToString();
+            var FileName = Path.GetFileName(file.FileName);
+            var File = Path.Combine(Server.MapPath("~/MakaleResimler/"), sayi + FileName);
+            file.SaveAs(File);
+            string FilePath = "~/MakaleResimler/" + sayi + FileName;
+
+            Makale ToAdd = new Makale();
+            ToAdd.AuthorName = TumAdminler().FirstOrDefault(x => x.AdminID == ViewYazarID);
+            ToAdd.Category = TumKategoriler().FirstOrDefault(x => x.CategoryID == ViewCategoryID);
+            ToAdd.Description = ViewDescription;
+            ToAdd.Image = FilePath;
+            ToAdd.Keywords = ViewKeywords;
+            ToAdd.Text = ViewText;
+            ToAdd.Title = ViewTitle;
+            RazorBlogContext _db = new RazorBlogContext();
+            _db.Makales.Add(ToAdd);
+            if (_db.SaveChanges()>0)
+            {
+                ViewBag.Mesaj = "Makale Ekleme Başarılı";
+            }
+            else
+            {
+                ViewBag.Mesaj = "";
+            }
+            return View();
+        }
+        public ActionResult MakaleListele()
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            return View(_db.Makales.ToList());
+        }
+
+        public ActionResult MakaleSil(int GelenMakaleID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Makale ToDel = _db.Makales.FirstOrDefault(x => x.MakaleID == GelenMakaleID);
+            return View(ToDel);
+        }
+        [HttpPost]
+        public ActionResult MakaleSil(Makale m)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Makale ToDel = _db.Makales.FirstOrDefault(x => x.MakaleID == m.MakaleID);
+            _db.Makales.Remove(ToDel);
+            _db.SaveChanges();
+            return RedirectToAction("MakaleListele");
+        }
+
+        public ActionResult MakaleGuncelle(int GelenMakaleID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Makale ToEdit = _db.Makales.FirstOrDefault(x => x.MakaleID == GelenMakaleID);
+            List<Category> AllCategoryList = _db.Categories.ToList();
+            List<SelectListItem> ForDropDown = new List<SelectListItem>();
+            foreach (Category item in AllCategoryList)
+            {
+                SelectListItem sl = new SelectListItem();
+                if (ToEdit.Category.CategoryID == item.CategoryID)
+                {
+                    sl.Selected = true;
+                }
+                sl.Text = item.Name;
+                sl.Value = item.CategoryID.ToString();
+                ForDropDown.Add(sl);
+            }
+            ViewBag.SelectedCategoryListForDropDown = ForDropDown;
+            ViewBag.asddsa = new SelectList((_db.Categories), "CategoryID", "Name", 3);
+            return View(ToEdit);
+        }
 
        
     }

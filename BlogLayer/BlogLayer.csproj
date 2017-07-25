@@ -668,7 +668,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\BlogHome2.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -703,6 +702,10 @@
     <Content Include="Views\Admin\KategoriGuncelle.cshtml" />
     <Content Include="Views\Admin\KategoriSil.cshtml" />
     <Content Include="Views\Admin\MakaleEkle.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Admin\MakaleListele.cshtml" />
+    <Content Include="Views\Admin\MakaleSil.cshtml" />
+    <Content Include="Views\Admin\MakaleGuncelle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
