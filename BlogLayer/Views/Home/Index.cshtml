@@ -7,17 +7,45 @@
 <h2>Index</h2>
 
 @{ 
-    List<Makale> Kategoriler = (List<Makale>)ViewBag.MakalelerList;
+    List<Makale> Kategoriler = (List<Makale>)ViewBag.sayfamakale;
     foreach (Makale item in Kategoriler)
     {
         <div class="content_wrapper content_mb_30">
             <h2 class="post_title">@Html.ActionLink(item.Title,"MakaleGoster",new {@id=item.MakaleID })</h2>
-            <a href='@Url.Action("MakaleGoster","Home",new {id=item.MakaleID })'><img src="@Url.Content(item.Image)" style="width:600px; height:200px;" alt="flower 5" class="img_border img_nom" /></a>
+            <a href='@Url.Action("MakaleGoster","Home",new {id=item.MakaleID })'>
+            @if (item.Image!=null)
+            {
+                <img src="@Url.Content(item.Image)" style="width:600px; height:200px;" alt="flower 5" class="img_border img_nom" />
+            }
+            </a>
             <p><b>Kategori:</b>@Html.ActionLink(item.Category.Name,"KategoriGoster",new {@id=item.Category.CategoryID })</p>
             <p>@item.Description</p>
             <div class="clear"></div>
         </div>
     }
+    <div class="templatemo_paging">
+        <ul>
+            @{
+                int ToplamSayfaSayisi = Convert.ToInt32(ViewBag.sayfasayisi);
+                int sayfano = ViewBag.sayfa;
+                if (ToplamSayfaSayisi > 1)
+                {
+                    for (int i = 1; i <= ToplamSayfaSayisi; i++)
+                    {
+                        if (i == sayfano)
+                        {
+                            <li><a href="#">@i</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("index",new {StrSayfa=i })">@i</a></li>
+                        }
+                    }
+
+                }
+            }
+        </ul>
+    </div>
 }
 
 <link type="text/css" href="~/Content/css/nivo-slider.css" rel="stylesheet" />

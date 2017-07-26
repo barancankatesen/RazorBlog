@@ -7,14 +7,15 @@ using System.Web;
 using System.Web.Mvc;
 using BlogLayer.Models.DataModel;
 using System.IO;
+using System.Web.Hosting;
 
 namespace BlogLayer.Controllers
 {
     public class AdminController : Controller
     {
-        
-       
-        
+
+
+
         // GET: Admin
         public ActionResult Index()
         {
@@ -25,9 +26,9 @@ namespace BlogLayer.Controllers
             }
             else
             {
-               return RedirectToAction("login", "admin");
+                return RedirectToAction("login", "admin");
             }
-            
+
         }
 
         public ActionResult Login()
@@ -38,7 +39,7 @@ namespace BlogLayer.Controllers
             }
             return View();
         }
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Login(AdminHelper model)
         {
             if (ModelState.IsValid)
@@ -46,7 +47,7 @@ namespace BlogLayer.Controllers
                 using (RazorBlogContext _db = new RazorBlogContext())
                 {
                     var admin = _db.Admins.FirstOrDefault(x => x.UserName == model.UserName && x.Password == model.Password);
-                    if (admin!=null)
+                    if (admin != null)
                     {
                         Session.Add("giris", true);
                         Session.Add("adminid", admin.AdminID);
@@ -60,7 +61,7 @@ namespace BlogLayer.Controllers
 
         private String UrlTemizle(string data)
         {
-            data = data.Replace(",", "").Replace("\"", "").Replace(":", "").Replace(";", "").Replace(".", "").Replace("!", "").Replace("?", "").Replace(")", "").Replace("(", "").Replace("&", "").Replace(" ", "").Replace("ç", "c").Replace("ğ", "g").Replace("ı", "i").Replace("ö", "o").Replace("ş", "s").Replace("ü", "u").Replace("/","").Replace("'\'","");
+            data = data.Replace(",", "").Replace("\"", "").Replace(":", "").Replace(";", "").Replace(".", "").Replace("!", "").Replace("?", "").Replace(")", "").Replace("(", "").Replace("&", "").Replace(" ", "").Replace("ç", "c").Replace("ğ", "g").Replace("ı", "i").Replace("ö", "o").Replace("ş", "s").Replace("ü", "u").Replace("/", "").Replace("'\'", "");
 
             return data;
         }
@@ -74,7 +75,7 @@ namespace BlogLayer.Controllers
         public ActionResult KategoriEkleOto(FormCollection frm)
         {
 
-          return OzhakikiKategoriEkle(frm);
+            return OzhakikiKategoriEkle(frm);
         }
         public ActionResult KategoriEkle()
         {
@@ -150,7 +151,7 @@ namespace BlogLayer.Controllers
             return RedirectToAction("KategoriListele");
         }
 
-       
+
 
         public ActionResult KategoriGuncelle(int KategoriID)
         {
@@ -191,35 +192,42 @@ namespace BlogLayer.Controllers
             TumKategoriler();
             return View();
         }
-        [HttpPost,ValidateInput(false)]
-        public ActionResult MakaleEkle(FormCollection frm,HttpPostedFileBase file)
+        [HttpPost, ValidateInput(false)]
+        public ActionResult MakaleEkle(FormCollection frm, HttpPostedFileBase file)
         {
-            
+
             string ViewTitle = frm.Get("Title");
             string ViewDescription = frm.Get("Description");
-            int ViewCategoryID = Convert.ToInt32(frm.Get("Category"));
+            int ViewCategoryID = Convert.ToInt32(frm.Get("Category.CategoryID"));
             string ViewText = frm.Get("Text");
             string ViewKeywords = frm.Get("Keywords");
             int ViewYazarID = Convert.ToInt32(Session["adminid"]);
 
-            Random rnd = new Random();
-            string sayi = rnd.Next(111111, 999999).ToString();
-            var FileName = Path.GetFileName(file.FileName);
-            var File = Path.Combine(Server.MapPath("~/MakaleResimler/"), sayi + FileName);
-            file.SaveAs(File);
-            string FilePath = "~/MakaleResimler/" + sayi + FileName;
+
+
+
 
             Makale ToAdd = new Makale();
             ToAdd.AuthorName = TumAdminler().FirstOrDefault(x => x.AdminID == ViewYazarID);
             ToAdd.Category = TumKategoriler().FirstOrDefault(x => x.CategoryID == ViewCategoryID);
             ToAdd.Description = ViewDescription;
-            ToAdd.Image = FilePath;
+            if (file!=null)
+            {
+                Random rnd = new Random();
+                string sayi = rnd.Next(111111, 999999).ToString();
+                string FileName = Path.GetFileName(file.FileName);
+                string File = Path.Combine(Server.MapPath("~/MakaleResimler/"), sayi + FileName);
+                file.SaveAs(File);
+                string FilePath = "~/MakaleResimler/" + sayi + FileName;
+                ToAdd.Image = FilePath;
+            }
+
             ToAdd.Keywords = ViewKeywords;
             ToAdd.Text = ViewText;
             ToAdd.Title = ViewTitle;
             RazorBlogContext _db = new RazorBlogContext();
             _db.Makales.Add(ToAdd);
-            if (_db.SaveChanges()>0)
+            if (_db.SaveChanges() > 0)
             {
                 ViewBag.Mesaj = "Makale Ekleme Başarılı";
             }
@@ -255,9 +263,9 @@ namespace BlogLayer.Controllers
         {
             RazorBlogContext _db = new RazorBlogContext();
             Makale ToEdit = _db.Makales.FirstOrDefault(x => x.MakaleID == GelenMakaleID);
-            List<Category> AllCategoryList = _db.Categories.ToList();
             List<SelectListItem> ForDropDown = new List<SelectListItem>();
-            foreach (Category item in AllCategoryList)
+            List<Category> AllCategoryList = _db.Categories.ToList();
+            foreach (var item in AllCategoryList)
             {
                 SelectListItem sl = new SelectListItem();
                 if (ToEdit.Category.CategoryID == item.CategoryID)
@@ -269,10 +277,54 @@ namespace BlogLayer.Controllers
                 ForDropDown.Add(sl);
             }
             ViewBag.SelectedCategoryListForDropDown = ForDropDown;
-            ViewBag.asddsa = new SelectList((_db.Categories), "CategoryID", "Name", 3);
             return View(ToEdit);
         }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult MakaleGuncelle(FormCollection frm, HttpPostedFileBase file)
+        {
+            int ViewMakaleID = Convert.ToInt32(frm.Get("MakaleID"));
+            string ViewTitle = frm.Get("Title");
+            string ViewDescription = frm.Get("Description");
+            int ViewCategoryID = Convert.ToInt32(frm.Get("Category.CategoryID"));
+            string ViewText = frm.Get("Text");
+            string ViewKeywords = frm.Get("Keywords");
+            bool ViewResmiSil = frm.Get("ResmiSil").Contains("true");
+            RazorBlogContext _db = new RazorBlogContext();
+            Makale MakaleToEdit = _db.Makales.FirstOrDefault(x => x.MakaleID == ViewMakaleID);
+            Category CategoryToAdd = _db.Categories.FirstOrDefault(x => x.CategoryID == ViewCategoryID);
+            if (ViewResmiSil)
+            {
 
-       
+                string FileFullPath = Request.MapPath(MakaleToEdit.Image);
+                System.IO.File.Delete(FileFullPath);
+                MakaleToEdit.Image = null;
+            }
+            else
+            {
+                if (file != null)
+                {
+                    string FileFullPath = Request.MapPath(MakaleToEdit.Image);
+                    System.IO.File.Delete(FileFullPath);
+
+
+                    Random rnd = new Random();
+                    string sayi = rnd.Next(111111, 999999).ToString();
+                    var FileName = Path.GetFileName(file.FileName);
+                    var File = Path.Combine(Server.MapPath("~/MakaleResimler/"), sayi + FileName);
+                    file.SaveAs(File);
+                    string FilePath = "~/MakaleResimler/" + sayi + FileName;
+                    MakaleToEdit.Image = FilePath;
+                }
+            }
+            MakaleToEdit.Title = ViewTitle;
+            MakaleToEdit.Description = ViewDescription;
+            MakaleToEdit.Text = ViewText;
+            MakaleToEdit.Keywords = ViewKeywords;
+            MakaleToEdit.Category = CategoryToAdd;
+            _db.SaveChanges();
+            return RedirectToAction("MakaleListele");
+        }
+
+
     }
 }

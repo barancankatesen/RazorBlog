@@ -8,9 +8,9 @@
 <h2>MakaleListele</h2>
 
 <p>
-    @Html.ActionLink("Makale Ekle", "MakaleEkle","Admin")
+    @Html.ActionLink("Makale Ekle", "MakaleEkle", "Admin")
 </p>
-<table class="table table-hover" style="background-color:gainsboro" >
+<table class="table table-hover" style="background-color:gainsboro">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.MakaleID)
@@ -25,7 +25,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </th>
         <th>
-            @Html.DisplayName( "Kategori Adı")
+            @Html.DisplayName("Kategori Adı")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Keywords)
@@ -36,34 +36,40 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MakaleID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Keywords)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthorName.Name) @Html.DisplayFor(modelItem=> item.AuthorName.SurName)
-        </td>
-        <td>
-            @Html.ActionLink("Düzenle", "MakaleGuncelle", new { GelenMakaleID=item.MakaleID }) |
-            @Html.ActionLink("Sil", "MakaleSil", new { GelenMakaleID=item.MakaleID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MakaleID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (item.Image != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Image)
+                    <img src="@Url.Content(item.Image)" style="width:150px; height:100px;" alt="flower 5" class="img_border img_nom" />
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keywords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorName.Name) @Html.DisplayFor(modelItem => item.AuthorName.SurName)
+            </td>
+            <td>
+                @Html.ActionLink("Düzenle", "MakaleGuncelle", new { GelenMakaleID = item.MakaleID }) |
+                @Html.ActionLink("Sil", "MakaleSil", new { GelenMakaleID = item.MakaleID })
+            </td>
+        </tr>
+    }
 
 </table>
