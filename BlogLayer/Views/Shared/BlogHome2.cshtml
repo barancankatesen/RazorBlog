@@ -38,6 +38,10 @@ ddsmoothmenu.init({
     <script type="text/JavaScript" src="@Url.Content("~/Content/js/slimbox2.js")"></script>
 </head>
 <body style="background-color:black">
+    @{ 
+        Session.Remove("giris");
+        Session.Remove("adminid");
+    }
     <div id="templatemo_wrapper">
         <div id="templatemo_header">
             <span class="header_border"></span>
@@ -62,7 +66,7 @@ ddsmoothmenu.init({
                           List<Category> CategoryList = _db.Categories.ToList();
                           foreach (Category item in CategoryList)
                           {
-                              <li><a href="#">@item.Name</a></li>
+                              <li>@Html.ActionLink(item.Name,"KategoriGoster",new {ViewKategoriID=item.CategoryID })</li>
                           }
                       }
                     </ul>

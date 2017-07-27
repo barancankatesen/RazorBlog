@@ -206,12 +206,12 @@ namespace BlogLayer.Controllers
 
 
 
-
+            RazorBlogContext _db = new RazorBlogContext();
             Makale ToAdd = new Makale();
-            ToAdd.AuthorName = TumAdminler().FirstOrDefault(x => x.AdminID == ViewYazarID);
-            ToAdd.Category = TumKategoriler().FirstOrDefault(x => x.CategoryID == ViewCategoryID);
+            ToAdd.AuthorName = _db.Admins.FirstOrDefault(x => x.AdminID == ViewYazarID);
+            ToAdd.Category = _db.Categories.FirstOrDefault(x => x.CategoryID == ViewCategoryID);
             ToAdd.Description = ViewDescription;
-            if (file!=null)
+            if (file != null)
             {
                 Random rnd = new Random();
                 string sayi = rnd.Next(111111, 999999).ToString();
@@ -225,7 +225,7 @@ namespace BlogLayer.Controllers
             ToAdd.Keywords = ViewKeywords;
             ToAdd.Text = ViewText;
             ToAdd.Title = ViewTitle;
-            RazorBlogContext _db = new RazorBlogContext();
+
             _db.Makales.Add(ToAdd);
             if (_db.SaveChanges() > 0)
             {
@@ -235,6 +235,7 @@ namespace BlogLayer.Controllers
             {
                 ViewBag.Mesaj = "";
             }
+            TumKategoriler();
             return View();
         }
         public ActionResult MakaleListele()
@@ -323,6 +324,44 @@ namespace BlogLayer.Controllers
             MakaleToEdit.Category = CategoryToAdd;
             _db.SaveChanges();
             return RedirectToAction("MakaleListele");
+        }
+        public ActionResult YorumlariYonet()
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            List<Yorum> YorumlarList = _db.Yorums.ToList();
+
+            return View(YorumlarList);
+        }
+        public ActionResult YorumOnayla(int ViewYorumID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Yorum ToEdit = _db.Yorums.FirstOrDefault(x => x.YorumID == ViewYorumID);
+            ToEdit.OnayDurumu = 1;
+            _db.SaveChanges();
+            return RedirectToAction("YorumlariYonet");
+        }
+        public ActionResult YorumOnayiKaldir(int ViewYorumID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Yorum ToEdit = _db.Yorums.FirstOrDefault(x => x.YorumID == ViewYorumID);
+            ToEdit.OnayDurumu = 0;
+            _db.SaveChanges();
+            return RedirectToAction("YorumlariYonet");
+        }
+        public ActionResult YorumSil(int ViewYorumID)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            Yorum ToDelete = _db.Yorums.FirstOrDefault(x => x.YorumID == ViewYorumID);
+            _db.Yorums.Remove(ToDelete);
+            _db.SaveChanges();
+            return RedirectToAction("YorumlariYonet");
+
+        }
+        public ActionResult Cikis()
+        {
+            Session.Remove("giris");
+            Session.Remove("adminid");
+            return RedirectToAction("index", "Home");
         }
 
 

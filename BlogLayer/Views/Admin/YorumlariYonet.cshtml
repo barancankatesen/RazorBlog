@@ -1,0 +1,53 @@
+﻿@using BlogLayer.Models.DataModel;
+@model IEnumerable<BlogLayer.Models.DataModel.Yorum>
+
+@{
+    ViewBag.Title = "YorumlariYonet";
+    Layout = "~/Views/Shared/BlogAdmin.cshtml";
+}
+
+<h2>YorumlariYonet</h2>
+
+
+<table class="table table-hover" style="background-color:gainsboro">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OnayDurumu)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (Yorum item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnayDurumu)
+            </td>
+            <td>
+                @if (item.OnayDurumu == 0)
+                {
+                    @Html.ActionLink("Onayla", "YorumOnayla", new { ViewYorumID = item.YorumID })
+                }
+                else
+                {
+                    @Html.ActionLink("Onayı Kaldır", "YorumOnayiKaldir", new { ViewYorumID = item.YorumID })
+                }
+                |
+                @Html.ActionLink("Sil", "YorumSil", new { ViewYorumID = item.YorumID })
+            </td>
+        </tr>
+    }
+
+</table>

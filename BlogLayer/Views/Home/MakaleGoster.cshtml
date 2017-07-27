@@ -1,0 +1,72 @@
+﻿@using BlogLayer.Models.DataModel
+@model BlogLayer.Models.DataModel.Makale
+@{
+    ViewBag.Title = "MakaleGoster";
+    Layout = "~/Views/Shared/BlogHome2.cshtml";
+}
+
+<h2>@(Model.Title)</h2>
+<div class="post">
+    <h2>
+        <a href="#">@Model.Title</a>
+    </h2>
+    <div class="post_meta">
+        <span class="post_author"><a href="#">@Model.AuthorName.Name @Model.AuthorName.SurName</a></span>
+        <span class="tag"><a href="#">@Model.Category.Name</a></span>
+        <span class="comment">Yorum Sayısı:@Model.Yorumlar.Count</span>
+    </div>
+    @{
+        if (Model.Image != null)
+        {
+            <img class="img_border img_border_b" src="@Url.Content(Model.Image)" alt="Post Image" style="width:600px; height:200px;" />
+        }
+        if (Model.Description != null)
+        {
+            <p>@Html.Raw(Model.Description)</p>
+        }
+    }
+</div>
+<h4>Yorumlar</h4>
+<ol class="comment_list">
+    <li>
+        <div class="comment_box">
+            <div class="comment_content">
+                @*<img src="~/Content/images/avator.jpg" alt="Person 1" class="img_fl img_border" />*@
+                @{
+                    List<Yorum> YorumlarListe = Model.Yorumlar.Where(x => x.OnayDurumu != 0).ToList();
+                    foreach (Yorum item in YorumlarListe)
+                    {
+                        <div class="glyphicon-comment">
+                            <strong> <a href="#">@item.Name</a></strong>
+                        </div>
+                        <p>@item.Comment</p>
+                    }
+                }
+            </div>
+        </div>
+    </li>
+</ol>
+<div class="clear"></div>
+<div id="comment_form">
+    <h3>Yorum Yap</h3>
+    @{
+        using (Html.BeginForm())
+        {
+            <label>İsim(*)</label>
+            @Html.TextBox("isim", "", new { @class = "input_field", @required = "true" })
+            <label>Yorum(*)</label>
+            @Html.TextArea("yorum", "", new { @required = "true" })
+            <input type="submit" name="submit" value="Gönder" class="submit_btn" />
+        }
+        if (ViewBag.Mesaj != null)
+        {
+            <script charset="iso-8859-9">
+                
+                $(document).ready(function () {
+                    alert('@ViewBag.Mesaj');
+                });
+              
+            </script>
+        }
+    }
+</div>
