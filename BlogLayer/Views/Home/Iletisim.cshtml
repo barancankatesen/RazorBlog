@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Iletisim";
+    Layout = "~/Views/Shared/BlogHome2.cshtml";
+}
+
+<h2>Iletisim</h2>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d657.1557573224621!2d27.12814252669203!3d38.41889157372789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xc585c535e03c6abc!2s%C4%B0zmir+Saat+Kulesi!5e0!3m2!1str!2str!4v1501486577696" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe><br /><br />
+
+<p>Adres:Kemeraltı girişi Hükümet konağı karşısı Konak/İzmir</p>
+
+<p>Telefon:01234567890</p>
+
+<p>Email:izmir@izmir.com</p>
+<div class="content_wrapper content_mb_60">
+    <div id="contact_form">
+        <h3>İletişim Formu</h3>
+        @using (Html.BeginForm())
+        {
+        <div class="col_2">
+            <label for="fullname">İsim:</label>
+            @Html.TextBox("isim", "", new { @class = "input_field", @placeholder = "Isim", @required = true })
+            <div class="clear"></div>
+        </div>
+
+        <div class="col_2 no_margin_right">
+            <label>Email:</label>
+            @Html.TextBox("email", "", new { @class = "input_field", @placeholder = "E-Mail", @type = "email", @required = true })
+            <div class="clear"></div>
+        </div>
+
+        <div>
+            <label for="text">Mesaj:</label>
+            <textarea id="mesaj" name="mesaj" required></textarea>
+        </div>
+        <input type="submit" name="Submit" value="Gönder" class="submit_btn left" />
+        }
+        @if (Request.HttpMethod=="POST")
+        {
+            @ViewBag.Mesaj
+        }
+    </div>
+</div>

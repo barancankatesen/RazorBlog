@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlogLayer.Models.DataModel;
 using BlogLayer.CF;
+using BlogLayer.Models.Helper;
 
 namespace BlogLayer.Controllers
 {
@@ -84,6 +85,38 @@ namespace BlogLayer.Controllers
             List<Makale> SayfaMakale = new List<Makale>(_db.Makales.Where(x=>x.Category.CategoryID==ViewKategoriID).OrderByDescending(x => x.MakaleID).Skip(Kactan).Take(Kacar));
             ViewBag.sayfamakale = SayfaMakale;
             ViewBag.AktifKategoriID = ViewKategoriID;
+            return View();
+        }
+        public ActionResult Hakkimizda()
+        {
+
+            return View();
+        }
+        public ActionResult Iletisim()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Iletisim(FormCollection frm)
+        {
+            string isim = frm.Get("isim");
+            string mail = frm.Get("email");
+            string mesaj = frm.Get("mesaj");
+            string body = String.Format("<table><tr><td>İsim</td><td>E-Mail</td><td>Mesaj</td></tr><tr><td>{0}</td><td>{1}</td><td>{2}</td></tr></table>", isim, mail, mesaj);
+            Mail ToSend = new Mail();
+            if (ToSend.MailGonder(mail, "Blog Sitesinden Gelen MesajBaran", body))
+            {
+                ViewBag.Mesaj = "Mesajınız başarılı bir şekilde gönderildi";
+              
+
+            }
+            else
+            {
+                ViewBag.Mesaj = "Mesaj gönderimi sırasında bir hata oluştu";
+            }
+                
+
             return View();
         }
     }

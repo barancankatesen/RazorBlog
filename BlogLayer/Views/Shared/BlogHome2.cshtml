@@ -48,9 +48,9 @@ ddsmoothmenu.init({
             <div id="site_title"><a href="#">YG3-9409</a></div>
             <div id="templatemo_menu" class="ddsmoothmenu">
                 <ul>
-                    <li><a href="index.html" class="selected"><span></span>Ana Sayfa</a></li>
-                    <li><a href="about.html"><span></span>Hakkımızda</a></li>
-                    <li><a href="contact.html"><span></span>İletişim</a></li>
+                    <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Hakkımızda","Hakkimizda","Home")</li>
+                    <li>@Html.ActionLink("İletişim", "Iletisim", "Home")</li>
                 </ul>
                 <br style="clear: left" />
             </div> <!-- end of templatemo_menu -->

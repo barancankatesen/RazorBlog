@@ -19,6 +19,7 @@ namespace BlogLayer.CF
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Makale> Makales { get; set; }
         public DbSet<Yorum> Yorums { get; set; }
+        public DbSet<SistemMail> SistemMails { get; set; }
 
     }
 }

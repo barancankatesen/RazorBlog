@@ -681,9 +681,11 @@
     <Compile Include="Models\DataModel\Admin.cs" />
     <Compile Include="Models\DataModel\Category.cs" />
     <Compile Include="Models\DataModel\Makale.cs" />
+    <Compile Include="Models\DataModel\SistemMail.cs" />
     <Compile Include="Models\DataModel\Yorum.cs" />
     <Compile Include="Models\Helper\AdminHelper.cs" />
     <Compile Include="Models\Helper\CategoryHelper.cs" />
+    <Compile Include="Models\Helper\Mail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -710,6 +712,9 @@
     <Content Include="Views\Home\MakaleGoster.cshtml" />
     <Content Include="Views\Admin\YorumlariYonet.cshtml" />
     <Content Include="Views\Home\KategoriGoster.cshtml" />
+    <Content Include="Views\Home\Hakkimizda.cshtml" />
+    <Content Include="Views\Home\Iletisim.cshtml" />
+    <Content Include="Views\Admin\MailGuncelle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

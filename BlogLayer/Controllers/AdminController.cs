@@ -363,7 +363,33 @@ namespace BlogLayer.Controllers
             Session.Remove("adminid");
             return RedirectToAction("index", "Home");
         }
+        public ActionResult MailGuncelle()
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            SistemMail ToEdit = _db.SistemMails.FirstOrDefault(x => x.SistemMailID == 1);
+            return View(ToEdit);
+        }
+        [HttpPost]
+        public ActionResult MailGuncelle(FormCollection frm)
+        {
+            RazorBlogContext _db = new RazorBlogContext();
+            SistemMail ToEdit = _db.SistemMails.FirstOrDefault(x => x.SistemMailID == 1);
+            string ViewMail = frm.Get("Mail");
+            string ViewPassword = frm.Get("Password");
+            ToEdit.Mail = ViewMail;
+            ToEdit.Password = ViewPassword;
+            if (_db.SaveChanges() > 0)
+            {
+                ViewBag.mesaj = "Mail Ayarları Güncellendi";
 
+            }
+            else
+            {
+                ViewBag.mesaj = "Mail Ayarları Güncelleme Esnasında Bir Hata Oluştu";
+            }
+            return RedirectToAction("index");
+            
+        }
 
     }
 }
